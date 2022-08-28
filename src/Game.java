@@ -1,7 +1,8 @@
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.Scanner;
+import java.util.ArrayList;
+//import java.util.Scanner;
 
 public class Game extends Canvas implements Runnable {
 
@@ -13,16 +14,17 @@ public class Game extends Canvas implements Runnable {
     public static final int CELLNUM = 10;
     public static final int CELLSIZE = WIDTH/CELLNUM;
 
-    private static final int TARGET_FPS = 60;
-    private static final double OPTIMAL_TIME = 1000000000 / ((double)TARGET_FPS);
+    //private static final int TARGET_FPS = 60;
+    //private static final double OPTIMAL_TIME = 1000000000 / ((double)TARGET_FPS);
 
     public GameHandler handler = new GameHandler();
+    public static ArrayList<ArrayList<GameObject>> board = new ArrayList<ArrayList<GameObject>>();
 
     public Game(){
 
         new Window(WIDTH, HEIGHT, "MyGame1", this);
 
-        handler.initBoard(CELLNUM, CELLSIZE);
+        board = handler.initBoard(CELLNUM, CELLSIZE);
 
         render();
 
@@ -53,7 +55,7 @@ public class Game extends Canvas implements Runnable {
 
     private void tick(){
     	
-    	handler.tick();
+    	handler.tick(board);
     }
 
     private void render(){
@@ -67,7 +69,7 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        handler.render(g);
+        handler.render(g, board);
 
         g.dispose();
         bs.show();

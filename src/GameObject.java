@@ -15,7 +15,7 @@ public abstract class GameObject {
         this.id = id;
     }
 
-    public abstract State tick();
+    public abstract State tick(ArrayList<ArrayList<GameObject>> board);
 
     public abstract void render(Graphics g);
 

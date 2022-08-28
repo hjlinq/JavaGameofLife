@@ -1,44 +1,47 @@
 
 
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
+//import java.util.LinkedList;
 import java.awt.Graphics;
 
 public class GameHandler {
 
-    public static ArrayList<ArrayList<GameObject>> objectList = new ArrayList<ArrayList<GameObject>>();
+//    public static ArrayList<ArrayList<GameObject>> objectList = new ArrayList<ArrayList<GameObject>>();
 
-    public static ArrayList<ArrayList<GameObject>> prevList = new ArrayList<ArrayList<GameObject>>();
+//    public static ArrayList<ArrayList<GameObject>> prevList = new ArrayList<ArrayList<GameObject>>();
 
-    public void tick() {
+    public void tick(ArrayList<ArrayList<GameObject>> board) {
     	
-    	prevList = objectList;
+    	ArrayList<ArrayList<GameObject>> newBoard = board;
     	
-    	for(int x = 0; x < prevList.size(); x++)
+    	//System.out.println(board);
+    	//System.out.println(newBoard);
+    	
+    	for(int x = 0; x < board.size(); x++)
         {
-            for(int y = 0; y < prevList.get(x).size(); y++)
+            for(int y = 0; y < board.get(x).size(); y++)
             {
-                //objectList.get(x).get(y).setState(objectList.get(x).get(y).tick());
-            	
-            	objectList.get(x).get(y).tick();
+            	newBoard.get(x).get(y).tick(board);
             }
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g, ArrayList<ArrayList<GameObject>> board) {
 
-        for(int x = 0; x < objectList.size(); x++)
+        for(int x = 0; x < board.size(); x++)
         {
-            for(int y = 0; y < objectList.get(x).size(); y++)
+            for(int y = 0; y < board.get(x).size(); y++)
             {
-                objectList.get(x).get(y).render(g);
+                board.get(x).get(y).render(g);
             }
         }
     }
 
-    public void initBoard(int CellNum, int CellSize)
+    public ArrayList<ArrayList<GameObject>> initBoard(int CellNum, int CellSize)
     {
+    	ArrayList<ArrayList<GameObject>> board = new ArrayList<ArrayList<GameObject>>();
+    	
         for(int x = 0; x < CellNum; x++)
         {
             ArrayList<GameObject> column = new ArrayList<GameObject>();
@@ -50,20 +53,20 @@ public class GameHandler {
                 column.add(cell);
             }
 
-            objectList.add(column);
+            board.add(column);
         }
-        objectList.get(4).get(3).setState(State.Alive);
-        objectList.get(5).get(4).setState(State.Alive);
-        objectList.get(5).get(5).setState(State.Alive);
-        objectList.get(4).get(5).setState(State.Alive);
-        objectList.get(3).get(5).setState(State.Alive);
+        board.get(4).get(3).setState(State.Alive);
+        board.get(5).get(4).setState(State.Alive);
+        board.get(5).get(5).setState(State.Alive);
+        board.get(4).get(5).setState(State.Alive);
+        board.get(3).get(5).setState(State.Alive);
         
-        prevList=objectList;
+        return board;
         
         
     }
 
-    public void addObject(int x, int y, GameObject object)
+    /*public void addObject(int x, int y, GameObject object)
     {
         ArrayList<GameObject> column = this.objectList.get(x);
         column.set(y, object); //Is this enough?
@@ -80,5 +83,5 @@ public class GameHandler {
     public void setObjectState(int x, int y, State state)
     {
         this.objectList.get(x).get(y).setState(state);
-    }
+    }*/
 }
